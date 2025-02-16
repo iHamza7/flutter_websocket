@@ -4,7 +4,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 final coinbaseWebScoketProvider = Provider<CoinbaseWebSocket>((ref) {
   ref.onDispose(() {
-    debugPrint("socket disposed nvh");
+    debugPrint("socket disposed nvhj");
   });
   ref.onCancel(() {
     debugPrint("socket cancel");
