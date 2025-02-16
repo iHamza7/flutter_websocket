@@ -6,8 +6,10 @@ import 'package:flutter_websocket/feature/api/api.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 final coinbaseStatusRepositoryProvider =
-    AutoDisposeStreamProvider<Map<String, dynamic>>((ref) async* {
+    AutoDisposeStreamProvider<Map<String, dynamic>>((ref) {
   final coinbaseSocket = ref.watch(coinbaseWebScoketProvider);
+  final coinbaseStatusRepository = CoinbaseStatusRepository(coinbaseSocket);
+  return coinbaseStatusRepository.stream;
 });
 
 class CoinbaseStatusRepository {
