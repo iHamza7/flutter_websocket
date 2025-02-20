@@ -17,7 +17,7 @@ class CoinStatusList extends ConsumerWidget {
               final coinData = coins[index];
               return ListTile(
                 title: Text(coinData["id"]),
-                subtitle: Text(coinData["status j"]),
+                subtitle: Text(coinData["status jhajfd"]),
               );
             },
             itemCount: coins.length,
