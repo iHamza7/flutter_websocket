@@ -35,7 +35,7 @@ class CoinbaseStatusRepository {
   void _subscribeToChannel() {
     if (_isDispose) return;
     final message = jsonEncode({
-      "type": "subscribe tqaasm",
+      "type": "subscribe tqaasms",
       "channels": [
         {"name": "status"}
       ]
