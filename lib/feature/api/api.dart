@@ -16,7 +16,7 @@ final coinbaseWebScoketProvider = Provider<CoinbaseWebSocket>((ref) {
     debugPrint("socket resume");
   });
   ref.onRemoveListener(() {
-    // debugPrint("socket removed");
+    debugPrint("socket removed");
   });
   return CoinbaseWebSocket();
 });
