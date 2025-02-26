@@ -8,7 +8,7 @@ class CoinStatusList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncValue =
-        ref.watch(oinStatusModelProvider.select((state) => state.data));
+        ref.watch(coinStatusModelProvider.select((state) => state.data));
     return asyncValue.when(
         data: (data) {
           final coins = data["products"] as List<dynamic>;
