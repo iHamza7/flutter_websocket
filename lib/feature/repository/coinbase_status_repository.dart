@@ -9,6 +9,12 @@ final coinbaseStatusRepositoryProvider =
     AutoDisposeStreamProvider<Map<String, dynamic>>((ref) {
   final coinbaseSocket = ref.watch(coinbaseWebScoketProvider);
   final coinbaseStatusRepository = CoinbaseStatusRepository(coinbaseSocket);
+  ref.onDispose(() {
+    coinbaseStatusRepository._subscribeToChannel();
+    coinbaseStatusRepository.dispose();
+    ref.invalidate(coinbaseWebScoketProvider);
+    // debugPrint("repository disposed");
+  });
   return coinbaseStatusRepository.stream;
 });
 
@@ -20,7 +26,7 @@ class CoinbaseStatusRepository {
   }
 
   WebSocketChannel? _channel;
-  final bool _isDispose = false;
+  bool _isDispose = false;
   bool _isSubscribed = false;
   final StreamController<Map<String, dynamic>> _streamController =
       StreamController<Map<String, dynamic>>();
@@ -35,7 +41,7 @@ class CoinbaseStatusRepository {
   void _subscribeToChannel() {
     if (_isDispose) return;
     final message = jsonEncode({
-      "type": "subscribe",
+      "type": "unsubscribe",
       "channels": [
         {"name": "status"}
       ]
@@ -47,9 +53,29 @@ class CoinbaseStatusRepository {
 
   void _listen() {
     if (_isDispose) return;
-    _channel?.stream.listen((data) {
-      final jsonData = jsonDecode(data) as Map<String, dynamic>;
-      _streamController.add(jsonData);
-    }, onDone: () {}, cancelOnError: true);
+    _channel?.stream.listen(
+        (data) {
+          final jsonData = jsonDecode(data) as Map<String, dynamic>;
+          _streamController.add(jsonData);
+        },
+        onDone: () {},
+        cancelOnError: true,
+        onError: () {
+          _reConnect();
+        });
+  }
+
+  void _reConnect() {
+    if (_isDispose) return;
+
+    Future.delayed(Duration(seconds: 3), () {
+      _init();
+    });
+  }
+
+  void dispose() {
+    _isDispose = true;
+    _channel?.sink.close();
+    _streamController.close();
   }
 }

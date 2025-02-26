@@ -1,22 +1,21 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 final coinbaseWebScoketProvider = Provider<CoinbaseWebSocket>((ref) {
   ref.onDispose(() {
-    debugPrint("socket disposed");
+    // debugPrint("socket disposed");
   });
   ref.onCancel(() {
-    debugPrint("socket cancel");
+    // debugPrint("socket cancel");
   });
   ref.onAddListener(() {
-    debugPrint("socket added");
+    // debugPrint("socket added");
   });
   ref.onResume(() {
-    debugPrint("socket resume");
+    // debugPrint("socket resume");
   });
   ref.onRemoveListener(() {
-    debugPrint("socket removed");
+    // debugPrint("socket removed");
   });
   return CoinbaseWebSocket();
 });
