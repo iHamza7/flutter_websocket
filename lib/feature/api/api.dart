@@ -13,7 +13,7 @@ final coinbaseWebScoketProvider = Provider<CoinbaseWebSocket>((ref) {
     debugPrint("socket added");
   });
   ref.onResume(() {
-    // debugPrint("socket resume");
+    debugPrint("socket resume");
   });
   ref.onRemoveListener(() {
     // debugPrint("socket removed");
