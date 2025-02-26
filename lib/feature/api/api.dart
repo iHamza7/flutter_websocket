@@ -7,7 +7,7 @@ final coinbaseWebScoketProvider = Provider<CoinbaseWebSocket>((ref) {
     debugPrint("socket disposed");
   });
   ref.onCancel(() {
-    // debugPrint("socket cancel");
+    debugPrint("socket cancel");
   });
   ref.onAddListener(() {
     // debugPrint("socket added");
