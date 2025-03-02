@@ -21,11 +21,11 @@ class CoinbasePriceRepository {
 
   void _init() {
     _channel = _coinbaseWebSocket.connect();
-    _subscribeToChannel();
+    _subscribeToPrice();
     _listen();
   }
 
-  void _subscribeToChannel() {
+  void _subscribeToPrice() {
     if (_isDispose) return;
     final message = jsonEncode({
       "type": "subscribe",
