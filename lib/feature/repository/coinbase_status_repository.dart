@@ -10,7 +10,7 @@ final coinbaseStatusRepositoryProvider =
   final coinbaseSocket = ref.watch(coinbaseWebScoketProvider);
   final coinbaseStatusRepository = CoinbaseStatusRepository(coinbaseSocket);
   ref.onDispose(() {
-    coinbaseStatusRepository._subscribeToChannel();
+    coinbaseStatusRepository._unSubscribeToChannel();
     coinbaseStatusRepository.dispose();
     ref.invalidate(coinbaseWebScoketProvider);
     // debugPrint("repository disposed");
@@ -41,13 +41,26 @@ class CoinbaseStatusRepository {
   void _subscribeToChannel() {
     if (_isDispose) return;
     final message = jsonEncode({
-      "type": "unsubscribe",
+      "type": "subscribe",
       "channels": [
         {"name": "status"}
       ]
     });
 
     _isSubscribed = true;
+    _channel?.sink.add(message);
+  }
+
+  void _unSubscribeToChannel() {
+    if (_isDispose) return;
+    final message = jsonEncode({
+      "type": "unsubscribe",
+      "channels": [
+        {"name": "status"}
+      ]
+    });
+
+    _isSubscribed = false;
     _channel?.sink.add(message);
   }
 
