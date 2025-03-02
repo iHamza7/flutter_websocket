@@ -1,8 +1,27 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_websocket/feature/api/api.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+
+part 'coin_price_repository.g.dart';
+
+@riverpod
+Stream coinbasePriceRepository(Ref ref, List<String> productIds) {
+  final coinbaseWebSocket = ref.watch(coinbaseWebScoketProvider);
+  final coinbasePriceRepository =
+      CoinbasePriceRepository(coinbaseWebSocket, productIds);
+
+  ref.onDispose(() {
+    coinbasePriceRepository._unSubscribeToPrice();
+    coinbasePriceRepository.dispose();
+    ref.invalidate(coinbaseWebScoketProvider);
+    // debugPrint("repository disposed");
+  });
+  return coinbasePriceRepository.stream;
+}
 
 class CoinbasePriceRepository {
   final CoinbaseWebSocket _coinbaseWebSocket;
@@ -26,7 +45,7 @@ class CoinbasePriceRepository {
   }
 
   void _subscribeToPrice() {
-    if (_isDispose) return;
+    if (_isDispose || _isSubscribed) return;
     final message = jsonEncode({
       "type": "subscribe",
       "product_ids": _productIds,
@@ -37,8 +56,8 @@ class CoinbasePriceRepository {
     _channel?.sink.add(message);
   }
 
-  void _unSubscribeToChannel() {
-    if (_isDispose) return;
+  void _unSubscribeToPrice() {
+    if (_isDispose || !_isSubscribed) return;
     final message = jsonEncode({
       "type": "unsubscribe",
       "channels": ["ticker"]
