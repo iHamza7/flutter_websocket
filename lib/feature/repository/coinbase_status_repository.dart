@@ -41,7 +41,7 @@ class CoinbaseStatusRepository {
   void _subscribeToChannel() {
     if (_isDispose) return;
     final message = jsonEncode({
-      "type": "unsubscribe",
+      "type": "subscribe",
       "channels": [
         {"name": "status"}
       ]
@@ -59,8 +59,7 @@ class CoinbaseStatusRepository {
           _streamController.add(jsonData);
         },
         onDone: () {},
-        cancelOnError: true,
-        onError: () {
+        onError: (e) {
           _reConnect();
         });
   }
