@@ -41,9 +41,7 @@ class CoinbasePriceRepository {
     if (_isDispose) return;
     final message = jsonEncode({
       "type": "unsubscribe",
-      "channels": [
-        {"name": "status"}
-      ]
+      "channels": ["ticker"]
     });
 
     _isSubscribed = false;
