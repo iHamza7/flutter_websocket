@@ -6,8 +6,9 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 class CoinbasePriceRepository {
   final CoinbaseWebSocket _coinbaseWebSocket;
+  final List<String> _productIds;
 
-  CoinbasePriceRepository(this._coinbaseWebSocket) {
+  CoinbasePriceRepository(this._coinbaseWebSocket, this._productIds) {
     _init();
   }
 
