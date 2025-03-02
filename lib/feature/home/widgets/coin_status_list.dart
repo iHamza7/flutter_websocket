@@ -24,6 +24,6 @@ class CoinStatusList extends ConsumerWidget {
           );
         },
         error: (e, s) => Center(child: Text(e.toString())),
-        loading: () => CircularProgressIndicator());
+        loading: () => Center(child: CircularProgressIndicator()));
   }
 }
