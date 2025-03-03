@@ -39,7 +39,7 @@ class CoinbaseStatusRepository {
   }
 
   void _subscribeToChannel() {
-    if (_isDispose) return;
+    if (_isDispose || _isSubscribed) return;
     final message = jsonEncode({
       "type": "subscribe",
       "channels": [
@@ -52,7 +52,7 @@ class CoinbaseStatusRepository {
   }
 
   void _unSubscribeToChannel() {
-    if (_isDispose) return;
+    if (_isDispose || !_isSubscribed) return;
     final message = jsonEncode({
       "type": "unsubscribe",
       "channels": [
