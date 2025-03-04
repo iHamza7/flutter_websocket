@@ -20,6 +20,9 @@ class MyApp extends ConsumerWidget {
         useMaterial3: true,
       ),
       routerConfig: router,
+      routeInformationParser: router.routeInformationParser,
+      routerDelegate: router.routerDelegate,
+      routeInformationProvider: router.routeInformationProvider,
     );
   }
 }
