@@ -9,15 +9,37 @@ class CoinPriceScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-        appBar: AppBar(
-      title: Text("Coin Price"),
-      actions: [
-        IconButton(
-            onPressed: () {
-              ref.read(coinPricemodelProvider(productIds).notifier).reset();
+      appBar: AppBar(
+        title: Text("Coin Price"),
+        actions: [
+          IconButton(
+              onPressed: () {
+                ref.read(coinPricemodelProvider(productIds).notifier).reset();
+              },
+              icon: Icon(Icons.refresh))
+        ],
+      ),
+      body: Consumer(builder: (context, ref, child) {
+        final data = ref.watch(coinPricemodelProvider(productIds));
+        return data.when(
+            data: (rawData) {
+              final price = rawData['price'] ?? '0';
+
+              return Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(rawData['product_id'] ?? '-'),
+                    Text(price == '0' ? '-' : price),
+                    Text(rawData['time'] ?? '-'),
+                  ],
+                ),
+              );
             },
-            icon: Icon(Icons.refresh))
-      ],
-    ));
+            error: (e, s) => Center(child: Text(e.toString())),
+            loading: () => Center(child: CircularProgressIndicator()));
+      }),
+    );
   }
 }
