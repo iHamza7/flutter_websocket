@@ -20,7 +20,8 @@ class CoinStatusList extends ConsumerWidget {
                 title: Text(coinData["id"]),
                 subtitle: Text(coinData["status"]),
                 onTap: () {
-                  context.goNamed("price");
+                  context.goNamed("price",
+                      pathParameters: {'productId': "productId"});
                 },
               );
             },
