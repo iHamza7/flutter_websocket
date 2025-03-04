@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_websocket/feature/models/coin_status_model.dart';
+import 'package:go_router/go_router.dart';
 
 class CoinStatusList extends ConsumerWidget {
   const CoinStatusList({super.key});
@@ -18,6 +19,9 @@ class CoinStatusList extends ConsumerWidget {
               return ListTile(
                 title: Text(coinData["id"]),
                 subtitle: Text(coinData["status"]),
+                onTap: () {
+                  context.goNamed("price");
+                },
               );
             },
             itemCount: coins.length,
