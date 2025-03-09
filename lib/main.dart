@@ -14,7 +14,7 @@ class MyApp extends ConsumerWidget {
     final router = ref.watch(goRouterProvider);
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'WebSockets channel',
+      title: 'WebSockets channels',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
