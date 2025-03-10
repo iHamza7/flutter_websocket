@@ -10,7 +10,7 @@ class CoinPriceScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Coin Price h"),
+        title: Text("Coin Price"),
         actions: [
           IconButton(
               onPressed: () {
